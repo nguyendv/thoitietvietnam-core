@@ -3,6 +3,10 @@
         {
             "name": "catch",
             "version": "v1.5.6"
+        },
+        {
+            "name": "sqlitecpp",
+            "version": "dev"
         }
     ],
     "meta": {
