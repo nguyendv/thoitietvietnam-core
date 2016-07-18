@@ -22,6 +22,8 @@ file(GLOB sqlitecpp_src
   ${SQLITE_CPP_DIR}/sqlite3/sqlite3.c               
 )
 
+add_definitions(-DSQLITE_ENABLE_JSON1)
+
 add_library(coreclient      
   src/appstate.cpp
   ${sqlitecpp_src}

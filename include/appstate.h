@@ -3,14 +3,19 @@
 #include <string>
 using namespace std;
 
-int getCurrentLocation();
-void setCurrentLocation(int id);
-void onCurrentLocationChange(int newId);
+class AppState
+{
+public:
+  AppState(const char* dbPath);
 
-struct AppState{
-  AppState();
+  bool initialized();
 
-  int currLocationId; // Location state. For example: {id: 1, name: 'Hanoi'}
-  void onCurrentLocationChange(int newLocationID);   
+  /*
+   * Init the database
+   */
+  void initDb();
+private:
+
+  bool intiazlized_;
+  const char* dbPath_;
 };
-
