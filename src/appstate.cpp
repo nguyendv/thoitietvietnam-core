@@ -17,7 +17,6 @@ AppState::AppState(const char* dbPath) :dbPath_(dbPath)
     if (query.executeStep())
     {
       int boolInt = query.getColumn(0);
-      std::cout << "OOOOOOOOOOOOO   " << boolInt << '\n';
       intiazlized_ = (boolInt != 0);
     }
   }
