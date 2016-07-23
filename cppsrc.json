@@ -7,6 +7,14 @@
         {
             "name": "sqlitecpp",
             "version": "dev"
+        },
+        {
+            "name": "httpclient",
+            "version": "v0.1.1"
+        },
+        {
+            "name": "net",
+            "version": "v0.1.0"
         }
     ],
     "meta": {

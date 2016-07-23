@@ -1,0 +1,3 @@
+[submodule "thirdParty/sqliteprebuilt"]
+	path = thirdParty/sqliteprebuilt
+	url = https://github.com/nguyendv/sqliteprebuilt

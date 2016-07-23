@@ -1,13 +1,19 @@
 #include "appstate.h"
+#include "env.h"
+
 #include "SQLiteCpp/Database.h"
 #include "SQLiteCpp/Exception.h"
 #include "SQLiteCpp/Statement.h"
 
 #include <iostream>
+#include <cassert>
 
-AppState::AppState(const char* dbPath) :dbPath_(dbPath)
+#include "locations.h"
+
+
+AppState::AppState() :dbPath_(Env::DbPath)
 {
-  // TODO: find the 'initialized' value in the AppStates table
+  assert (dbPath_.size() > 0);
   try
   {
     SQLite::Database db(dbPath_, SQLite::OPEN_READONLY); 
@@ -29,22 +35,26 @@ AppState::AppState(const char* dbPath) :dbPath_(dbPath)
 
 bool AppState::initialized()
 {
-      std::cout << "OOOOOOOOOOOOO   " << intiazlized_ << '\n';
   return intiazlized_;
 }
 
 void AppState::initDb()
 {
+  assert (dbPath_.size() > 0);
   try
   {
     SQLite::Database db(dbPath_, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE);
   
     db.exec ("CREATE TABLE IF NOT EXISTS appstates (data TEXT);"); 
 
-    // TODO: download data the first time if necessary
-   
+    // Try to fetch the locations data 
+    Locations locations;
+    if (!locations.fetchLocations())
+      return;
+
     // Init the 'initialized' state to 'true' 
     SQLite::Statement query(db, "INSERT INTO appstates VALUES (json('{\"initialized\": 1}'));");
+
 
     query.exec();
 
@@ -56,5 +66,4 @@ void AppState::initDb()
     printf("%s\n", e.what());
   }
 }
-
 

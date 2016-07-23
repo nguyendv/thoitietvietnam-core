@@ -6,16 +6,17 @@ using namespace std;
 class AppState
 {
 public:
-  AppState(const char* dbPath);
+  AppState();
 
   bool initialized();
 
   /*
    * Init the database
+   * Called ONLY ONCE in the lifetime
    */
   void initDb();
 private:
 
   bool intiazlized_;
-  const char* dbPath_;
+  string dbPath_;
 };

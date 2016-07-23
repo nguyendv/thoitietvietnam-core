@@ -22,11 +22,26 @@ file(GLOB sqlitecpp_src
   ${SQLITE_CPP_DIR}/sqlite3/sqlite3.c               
 )
 
+set (HTTP_CLIENT_DIR ${THIRD_PARTY}/httpclient)
+
+file(GLOB httpclient_src
+  ${HTTP_CLIENT_DIR}/src/*.cpp
+)
+
+set (NET_DIR ${THIRD_PARTY}/net)
+
+file (GLOB net_src
+  ${NET_DIR}/src/*.cpp
+)
+
 add_definitions(-DSQLITE_ENABLE_JSON1)
 
 add_library(coreclient      
   src/appstate.cpp
+  src/locations.cpp
   ${sqlitecpp_src}
+  ${httpclient_src}
+  ${net_src}
 )
 
 include_directories (
@@ -35,6 +50,8 @@ include_directories (
   ${CATCH_DIR}
   ${SQLITE_CPP_DIR}/include
   ${SQLITE_CPP_DIR}/sqlite3
+  ${HTTP_CLIENT_DIR}/include
+  ${NET_DIR}/include
 )
 
 enable_testing()
