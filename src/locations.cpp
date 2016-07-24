@@ -5,6 +5,8 @@
 #include "SQLiteCpp/Exception.h"
 #include "SQLiteCpp/Statement.h"
 
+#include "httpclient/client.h"
+
 #include <cassert>
 
 Locations::Locations() : dbPath_(Env::DbPath), version_(0)
