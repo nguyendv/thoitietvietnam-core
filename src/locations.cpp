@@ -9,10 +9,10 @@
 #include "httpclient/exception.h"
 
 #include <cassert>
+#include <cstdlib>
 
 Locations::Locations() 
   : dbPath_(Env::DbPath), 
-    version_(0),
     server_(Env::Server)
 {
   assert (dbPath_.size() > 0 );
@@ -21,27 +21,20 @@ Locations::Locations()
   db.exec("CREATE TABLE IF NOT EXISTS locations (data TEXT);");
 }
 
-int Locations::fetchLocations()
+void Locations::fetchLocations()
 {
   assert (dbPath_.size() > 0);
   assert (server_.size() > 0);
 
   try
   {
-    SQLite::Database db(dbPath_, SQLite::OPEN_READWRITE);
-
-    SQLite::Statement query(db, "SELECT json_extract(data, '$.version') FROM locations; ");
-
-    if(query.executeStep())
-    {
-      version_ = query.getColumn(0);
-    }
+    int localDataVersion = getDataVersion();
 
     http::Client c(server_);
-    int server_data_version = std::stoi(c.get("/api/locations/version").body());
-    if (version_ < server_data_version)
-      fetchLocationTable();
-    version_ = server_data_version;
+    int serverDataVersion = atoi(c.get("/api/locations/version")
+        .body().c_str());
+    if (localDataVersion < serverDataVersion)
+      updateLocationTable();
   }
   catch (SQLite::Exception& sqliteEx)
   {
@@ -51,11 +44,9 @@ int Locations::fetchLocations()
   {
     printf("%s\n", httpEx.what());
   }
-
-  return version_;
 }
 
-void Locations::fetchLocationTable()
+void Locations::updateLocationTable()
 {
   SQLite::Database db(dbPath_, SQLite::OPEN_READWRITE);
 
@@ -67,4 +58,20 @@ void Locations::fetchLocationTable()
   SQLite::Statement insertQuery(db, "INSERT INTO locations VALUES (?);");
   insertQuery.bind(1, res.body());
   insertQuery.exec();
+}
+
+int Locations::getDataVersion()
+{
+    SQLite::Database db(dbPath_, SQLite::OPEN_READWRITE);
+
+    SQLite::Statement query(db, "SELECT json_extract(data, '$.version') FROM locations; ");
+
+    int ret = 0;
+
+    if(query.executeStep())
+    {
+      ret = query.getColumn(0);
+    }
+
+    return ret;
 }

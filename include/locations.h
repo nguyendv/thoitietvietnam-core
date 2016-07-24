@@ -13,17 +13,20 @@ class Locations
 
     /*
      * @brief: try to fetch the locations data from server
-     * @return: the version of the locations data
      */
-    int fetchLocations();
+    void fetchLocations();
+
+    /*
+     * @brief: get the current locations data version in db
+     */
+    int getDataVersion();
 
   private:
     /*
      * @brief: a 'helper' method of 'fetchLocations()', that download and insert location data to database
      */
-    void fetchLocationTable();
+    void updateLocationTable();
 
-    unsigned int version_;
     string dbPath_;
     string server_; // url of the api server
 };
