@@ -49,15 +49,15 @@ void AppState::initDb()
 
     // Try to fetch the locations data 
     Locations locations;
-    if (!locations.fetchLocations())
+    if (locations.fetchLocations() <= 0)
+    {
       return;
+    }
 
     // Init the 'initialized' state to 'true' 
     SQLite::Statement query(db, "INSERT INTO appstates VALUES (json('{\"initialized\": 1}'));");
 
-
     query.exec();
-
 
     intiazlized_ = true;
   }

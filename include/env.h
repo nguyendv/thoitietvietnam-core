@@ -9,4 +9,5 @@ using namespace std;
 class Env {
   public:
     static string DbPath;
+    static string Server;
 };
