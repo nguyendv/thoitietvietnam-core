@@ -19,9 +19,6 @@ Locations::Locations()
   SQLite::Database db(dbPath_, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE);
     
   db.exec("CREATE TABLE IF NOT EXISTS locations (data TEXT);");
-
-  // TODO: examine to see if it's efficient to fetch location every time
-  fetchLocations();
 }
 
 int Locations::fetchLocations()
