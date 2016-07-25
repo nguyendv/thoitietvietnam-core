@@ -64,7 +64,6 @@ string AppState::getState(const string& key)
     return selectQuery.getColumn(0);
   }
 
-  assert(false); // Should not go to here!
-  return ""; // Should not go to here!
+  return ""; 
 }
 

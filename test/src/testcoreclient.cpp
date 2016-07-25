@@ -20,12 +20,14 @@ TEST_CASE("Test Locations", "[locations]")
 
 TEST_CASE("Test AppState", "[appstate]"){
   AppState appState;
+
+  REQUIRE ( 0 != appState.getState("city").compare("Ha Noi"));
+
   appState.setState("city", "Ha Noi");
 
   REQUIRE ( 0 == appState.getState("city").compare("Ha Noi"));
 
   appState.setState("city", "Hai Phong");
 
-//  REQUIRE ( 0 == appState.getState("city").compare("Hai Phong"));
-
+  REQUIRE ( 0 == appState.getState("city").compare("Hai Phong"));
 }
