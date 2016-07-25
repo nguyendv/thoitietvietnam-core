@@ -18,6 +18,25 @@ TEST_CASE("Test Locations", "[locations]")
   REQUIRE ( 1 == locationsService.getDataVersion());
 }
 
+
+TEST_CASE("Test location suggestions", "[locations][suggestions]")
+{
+  Locations locationsService;
+
+  string query1 = "hd";
+  string suggestions1 = locationsService.getSuggestions(query1);
+  REQUIRE (suggestions1.find("Hải Dương") != string::npos);
+
+  string query2 = "dn";
+  string suggestions2 = locationsService.getSuggestions(query2);
+  REQUIRE (suggestions2.find("Đồng Nai") != string::npos);
+
+  string query3 = "sa";
+  string suggestions3 = locationsService.getSuggestions(query3);
+  REQUIRE (suggestions3.find("Sài Gòn") != string::npos);
+}
+
+
 TEST_CASE("Test AppState", "[appstate]"){
   AppState appState;
 

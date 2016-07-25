@@ -8,8 +8,14 @@
 #include "httpclient/client.h"
 #include "httpclient/exception.h"
 
+#include "json.hpp"
+using json = nlohmann::json;
+
 #include <cassert>
 #include <cstdlib>
+
+#include <algorithm>
+
 
 Locations::Locations() 
   : dbPath_(Env::DbPath), 
@@ -75,3 +81,42 @@ int Locations::getDataVersion()
 
     return ret;
 }
+
+string Locations::getSuggestions(const string& queryText)
+{
+  string ret = "";
+
+  if (queryText.size() > 1) // No suggestion for one character
+  {
+    SQLite::Database db(dbPath_, SQLite::OPEN_READONLY);
+
+    SQLite::Statement selectQuery(db, "SELECT json_extract(data, '$.locations') FROM locations;");
+
+    if (!selectQuery.executeStep()){
+      assert (false);
+    }
+
+    string locations = selectQuery.getColumn(0);
+
+    json jsonLocations = json::parse(locations);
+
+    for (auto& l : jsonLocations)
+    {
+      json aliases = l["aliases"];
+
+      for(auto& a : aliases)
+      {
+        string astr = a.get<string>();
+        if ( astr.find(queryText) != string::npos )
+        {
+          if(ret.size() > 0)
+            ret += ',';
+          ret += l["name"].get<string>();
+        }
+     } 
+    }
+  }
+  
+  return ret;
+}
+

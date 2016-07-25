@@ -15,6 +15,10 @@
         {
             "name": "net",
             "version": "v0.1.0"
+        },
+        {
+          "name": "nlohmann-json",
+          "version": "v2.0.1"
         }
     ],
     "meta": {

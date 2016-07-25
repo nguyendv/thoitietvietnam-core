@@ -17,6 +17,8 @@ set (CATCH_DIR ${THIRD_PARTY}/catch)
 
 set (SQLITE_CPP_DIR ${THIRD_PARTY}/sqlitecpp)
 
+set (JSON_DIR ${THIRD_PARTY}/nlohmann-json)
+
 file(GLOB sqlitecpp_src 
   ${SQLITE_CPP_DIR}/src/*.cpp
   ${SQLITE_CPP_DIR}/sqlite3/sqlite3.c               
@@ -52,6 +54,7 @@ include_directories (
   ${SQLITE_CPP_DIR}/sqlite3
   ${HTTP_CLIENT_DIR}/include
   ${NET_DIR}/include
+  ${JSON_DIR}
 )
 
 enable_testing()

@@ -21,6 +21,12 @@ class Locations
      */
     int getDataVersion();
 
+    /*
+     * @brief: return suggestions based on user input
+     * @return: suggestions, merged as a big comma separated string
+     */
+    string getSuggestions(const string& query);
+
   private:
     /*
      * @brief: a 'helper' method of 'fetchLocations()', that download and insert location data to database
