@@ -112,6 +112,7 @@ string Locations::getSuggestions(const string& queryText)
           if(ret.size() > 0)
             ret += ',';
           ret += l["name"].get<string>();
+          break;
         }
      } 
     }
