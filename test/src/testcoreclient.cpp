@@ -2,10 +2,11 @@
 #include "catch.hpp"
 #include "appstate.h"
 #include "locations.h"
+#include "weather.h"
 #include "env.h"
 
 string Env::DbPath = "test.db";
-string Env::Server = "127.0.0.1:5000";
+string Env::Server = "june15-thoitietvietnam.dvnguyen.com";
 
 
 TEST_CASE("Test Locations", "[locations]")
@@ -15,7 +16,7 @@ TEST_CASE("Test Locations", "[locations]")
   locationsService.fetchLocations();
 
   // 1: the locations data version defined in locationsdata.json
-  REQUIRE ( 1 == locationsService.getDataVersion());
+  REQUIRE ( 2 == locationsService.getDataVersion());
 }
 
 
@@ -40,13 +41,26 @@ TEST_CASE("Test location suggestions", "[locations][suggestions]")
 TEST_CASE("Test AppState", "[appstate]"){
   AppState appState;
 
-  REQUIRE ( 0 != appState.getState("city").compare("Ha Noi"));
+  REQUIRE ( 0 != appState.getState("CURRENT_LOCATION").compare("Ha Noi"));
 
-  appState.setState("city", "Ha Noi");
+  appState.setState("CURRENT_LOCATION", "Ha Noi");
 
-  REQUIRE ( 0 == appState.getState("city").compare("Ha Noi"));
+  REQUIRE ( 0 == appState.getState("CURRENT_LOCATION").compare("Ha Noi"));
 
-  appState.setState("city", "Hai Phong");
+  appState.setState("CURRENT_LOCATION", "Hải Phòng");
 
-  REQUIRE ( 0 == appState.getState("city").compare("Hai Phong"));
+  REQUIRE ( 0 == appState.getState("CURRENT_LOCATION").compare("Hải Phòng"));
+}
+
+
+TEST_CASE("Test Weather api", "[weather]")
+{
+  AppState appState;
+  Weather weather;
+
+  string currentLocation = appState.getState("CURRENT_LOCATION");
+  weather.fetchData(currentLocation);
+
+  cout << weather.getCurerntCondition(currentLocation);
+  REQUIRE ( weather.getCurerntCondition(currentLocation).size() > 0);
 }

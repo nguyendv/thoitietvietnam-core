@@ -41,6 +41,7 @@ add_definitions(-DSQLITE_ENABLE_JSON1)
 add_library(coreclient      
   src/appstate.cpp
   src/locations.cpp
+  src/weather.cpp
   ${sqlitecpp_src}
   ${httpclient_src}
   ${net_src}
