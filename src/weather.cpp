@@ -82,3 +82,25 @@ string Weather::condition(const string& location)
 
   return "";
 }
+
+
+string Weather::temperature(const string& location)
+{
+  SQLite::Database db(dbPath_, SQLite::OPEN_READONLY);
+
+  SQLite::Statement selectQuery(db, "SELECT data FROM weather WHERE location= ?;");
+
+  selectQuery.bind(1, location);
+
+  if (selectQuery.executeStep())
+  {
+    string data = selectQuery.getColumn(0);
+    json jsondata = json::parse(data); 
+
+    int tempc = jsondata["tempc"].get<int>();
+
+    return std::to_string(tempc) + "°";
+  }
+
+  return "";
+}

@@ -63,4 +63,7 @@ TEST_CASE("Test Weather api", "[weather]")
 
   cout << weather.condition(currentLocation);
   REQUIRE ( weather.condition(currentLocation).size() > 0);
+
+  cout << weather.temperature(currentLocation);
+  REQUIRE (weather.temperature(currentLocation).size() > 0);
 }

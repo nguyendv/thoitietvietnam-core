@@ -9,6 +9,7 @@ public:
   Weather();
   void fetchData(const string& location);
   string condition(const string& location);
+  string temperature(const string& location);
 
 private:
   string server_;
