@@ -1,9 +1,12 @@
 #include "weather.h"
 #include "env.h"
+
 #include "httpclient/client.h"
+#include "httpclient/exception.h"
 
 #include "SQLiteCpp/Database.h"
 #include "SQLiteCpp/Statement.h"
+#include "SQLiteCpp/Exception.h"
 
 #include "json.hpp"
 
@@ -26,13 +29,19 @@ Weather::Weather()
 
 void Weather::fetchData(const string& location)
 {
-  http::Client client(server_);
+  try
+  {
+    http::Client client(server_);
 
-  http::Response res = client.get("/api/weather/" + location);
+    http::Response res = client.get("/api/weather/" + location);
 
-  string data = res.body();
+    string data = res.body();
 
-  updateDb(location, data);
+    updateDb(location, data);
+  }
+  catch (const http::Exception& httpEx)
+  {
+  }
 }
 
 void Weather::updateDb(const string& location, const string& data)
@@ -56,7 +65,7 @@ void Weather::updateDb(const string& location, const string& data)
   insertQuery.exec();
 }
 
-string Weather::getCurerntCondition(const string& location)
+string Weather::condition(const string& location)
 {
   SQLite::Database db(dbPath_, SQLite::OPEN_READONLY);
 

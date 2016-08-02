@@ -8,7 +8,7 @@ class Weather
 public: 
   Weather();
   void fetchData(const string& location);
-  string getCurerntCondition(const string& location);
+  string condition(const string& location);
 
 private:
   string server_;

@@ -15,7 +15,7 @@ TEST_CASE("Test Locations", "[locations]")
   REQUIRE ( 0 == locationsService.getDataVersion());
   locationsService.fetchLocations();
 
-  // 1: the locations data version defined in locationsdata.json
+  // 2: the locations data version defined in locationsdata.json
   REQUIRE ( 2 == locationsService.getDataVersion());
 }
 
@@ -61,6 +61,6 @@ TEST_CASE("Test Weather api", "[weather]")
   string currentLocation = appState.getState("CURRENT_LOCATION");
   weather.fetchData(currentLocation);
 
-  cout << weather.getCurerntCondition(currentLocation);
-  REQUIRE ( weather.getCurerntCondition(currentLocation).size() > 0);
+  cout << weather.condition(currentLocation);
+  REQUIRE ( weather.condition(currentLocation).size() > 0);
 }

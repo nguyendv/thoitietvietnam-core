@@ -42,11 +42,7 @@ void Locations::fetchLocations()
     if (localDataVersion < serverDataVersion)
       updateLocationTable();
   }
-  catch (SQLite::Exception& sqliteEx)
-  {
-    printf("%s\n", sqliteEx.what());
-  }
-  catch (const http::Exception httpEx)
+  catch (const http::Exception& httpEx)
   {
     printf("%s\n", httpEx.what());
   }
